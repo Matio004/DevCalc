@@ -11,5 +11,5 @@ Colors:
 <br/>RGB
 
 
-devcalc-0.1-armeabi-v7a-debug.apk - package for android
-main.py - runs on PC
+<br/>devcalc-0.1-armeabi-v7a-debug.apk - package for android
+<br/>main.py - runs on PC
