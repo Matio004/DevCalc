@@ -1,7 +1,7 @@
 class System:
     name: str
     symbols: list
-    equations: list = ['+ - * /'.split(), 'DEL AC'.split()]
+    equations: list = ['+ - * //'.split(), 'DEL AC'.split()]
     base: int
     function: classmethod
     split: int

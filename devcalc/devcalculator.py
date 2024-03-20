@@ -107,7 +107,7 @@ class Calculator(GridLayout):
         if instance.text == 'Colors':
             self.parent.parent.current = 'color'
 
-        self.equation += instance.text
+        self.equation += instance.text if instance.text != '/' else '//'
 
         self.set_all_systems()
 
