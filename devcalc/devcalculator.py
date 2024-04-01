@@ -127,7 +127,7 @@ class Calculator(GridLayout):
     def show_useful_sings(self):
         # Keyboard
         for layout in self.children:
-            if type(layout) == BoxLayout:
+            if isinstance(layout, BoxLayout):  # type(layout) == BoxLayout:
                 for widget in layout.children:
                     if widget.text not in self.equation.system.symbols and widget.text not in \
                             ['*', '/', '+', '-', '=', self.layout[4][2], 'DEL', 'AC']:  # not useful
