@@ -1,74 +1,11 @@
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.graphics import Color, Rectangle
-from kivy.core.clipboard import Clipboard
 
-from equation import ColorEquation
-from systems import Hexadecimal, RGB
-from base import hex_color_fill, hex2rgb, int_color
-
-
-class HEXNumber(Label):
-    font_name = 'Roboto-Medium.ttf'
-
-    def on_size(self, *args):
-        self.canvas.before.clear()
-        with self.canvas.before:
-            Color(14 / 255, 23 / 255, 46 / 255, 1)
-            Rectangle(pos=self.pos, size=self.size)
-
-    def on_touch_down(self, touch):
-        if self.collide_point(touch.pos[0], touch.pos[1]):
-            Clipboard.copy('#' + hex_color_fill(self.text))
-
-
-class RGBNumber(Label):
-    font_name = 'Roboto-Medium.ttf'
-
-    def __init__(self, label_id):
-        super(RGBNumber, self).__init__()
-        self.label_id = label_id
-
-    def on_size(self, *args):
-        self.canvas.before.clear()
-        with self.canvas.before:
-            Color(14 / 255, 23 / 255, 46 / 255, 18)
-            Rectangle(pos=self.pos, size=self.size)
-
-    def on_touch_down(self, touch):
-        if self.collide_point(touch.pos[0], touch.pos[1]) and self.parent.parent.parent.equation.system == RGB:
-            self.parent.parent.parent.equation.current_rgb_color = self.label_id
-            self.parent.parent.parent.show_useful_sings()
-
-    def change_color(self, color):
-        self.canvas.before.clear()
-        with self.canvas.before:
-            color = int_color(hex2rgb(color))
-            Color(color[0] / 255, color[1] / 255, color[2] / 255, 18)
-            Rectangle(pos=self.pos, size=self.size)
-
-
-class ColorLabel(Label):
-    font_name = 'Roboto-Medium.ttf'
-
-    def __init__(self, color):
-        super(ColorLabel, self).__init__()
-        self.virtual_color = color
-
-    def on_size(self, *args):
-        self.change_color(self.virtual_color)
-
-    def on_touch_down(self, touch):
-        if self.collide_point(touch.pos[0], touch.pos[1]):
-            Clipboard.copy(', '.join(self.parent.parent.parent.equation.get_rgb()))
-
-    def change_color(self, color):
-        self.canvas.before.clear()
-        with self.canvas.before:
-            Color(int(color[0]) / 255, int(color[1]) / 255, int(color[2]) / 255, 1)
-            Rectangle(pos=self.pos, size=self.size)
+from .equation import ColorEquation
+from ..base.systems import Hexadecimal, RGB
+from ..base.functions import hex_color_fill, hex2rgb
+from .base import HEXNumber, RGBNumber, ColorLabel
 
 
 class ColorChooser(GridLayout):
@@ -92,14 +29,17 @@ class ColorChooser(GridLayout):
     active = '#008035'
     label_color = '#0E172E'
 
+    # font
+    font_name = './assets/Roboto-Medium.ttf'
+
     def __init__(self):
         super(ColorChooser, self).__init__(cols=1, size_hint=(1, 1), pos_hint={"left_x": 0, "left_y": 0}, spacing=3)
         system_box = GridLayout(cols=1, size_hint=(4, 4), spacing=3)
 
         hex_system = [Button(text='HEX', on_press=self.change_system, background_color=self.rest,
-                             font_name='Roboto-Medium.ttf'), HEXNumber(), ColorLabel([0, 0, 0])]
+                             font_name=self.font_name), HEXNumber(), ColorLabel([0, 0, 0])]
         rgb_system = [Button(text='RGB', on_press=self.change_system, background_color=self.rest,
-                             font_name='Roboto-Medium.ttf'), RGBNumber(0), RGBNumber(1), RGBNumber(2)]
+                             font_name=self.font_name), RGBNumber(0), RGBNumber(1), RGBNumber(2)]
 
         self.all_systems = hex_system, rgb_system
 
@@ -114,18 +54,18 @@ class ColorChooser(GridLayout):
         for raw in self.layout:
             box_raw = BoxLayout(orientation='horizontal', spacing=1)
             for symbol in raw:
-                button = Button(text=symbol, on_press=self.call_back, font_name='Roboto-Medium.ttf')
+                button = Button(text=symbol, on_press=self.call_back, font_name=self.font_name)
                 box_raw.add_widget(button)
             self.add_widget(box_raw)
 
         self.show_useful_sings()
         self.set_all_systems()
 
-    def change_system(self, instance):  # Changes system
+    def change_system(self, instance):  # Changes __system
         if instance.text == 'HEX':
-            self.equation.set_system(Hexadecimal)
+            self.equation.system = Hexadecimal
         elif instance.text == 'RGB':
-            self.equation.set_system(RGB)
+            self.equation.system = RGB
 
         self.set_all_systems()
         self.modify_color()
@@ -164,7 +104,7 @@ class ColorChooser(GridLayout):
     def show_useful_sings(self):
         # Keyboard
         for layout in self.children:
-            if type(layout) == BoxLayout:
+            if isinstance(layout, BoxLayout):
                 for widget in layout.children:
                     # not useful
                     if widget.text not in self.equation.system.symbols \

@@ -1,27 +1,10 @@
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.graphics import Color, Rectangle
-from kivy.core.clipboard import Clipboard
 
-from systems import Hexadecimal, Decimal, Octal, Binary
-from equation import Equation
-
-
-# Label
-class NumberView(Label):
-    font_name = 'Roboto-Medium.ttf'
-
-    def on_size(self, *args):
-        self.canvas.before.clear()
-        with self.canvas.before:
-            Color(14 / 255, 23 / 255, 46 / 255, 18)
-            Rectangle(pos=self.pos, size=self.size)
-
-    def on_touch_down(self, touch):
-        if self.collide_point(touch.pos[0], touch.pos[1]):
-            Clipboard.copy(self.text)
+from ..base.systems import Hexadecimal, Decimal, Octal, Binary
+from .equation import Equation
+from .base import NumberView
 
 
 class Calculator(GridLayout):
@@ -45,21 +28,24 @@ class Calculator(GridLayout):
     active = '#008035'
     label_color = '#0E172E'
 
+    # font
+    font_name = './assets/Roboto-Medium.ttf'
+
     def __init__(self):
         super(Calculator, self).__init__(cols=1, size_hint=(1, 1), pos_hint={"left_x": 0, "left_y": 0}, spacing=3)
         system_box = GridLayout(cols=2, size_hint=(4, 4), spacing=3)
 
         hex_system = [Button(text='HEX', on_press=self.change_system, background_color=self.rest,
-                             font_name='Roboto-Medium.ttf', width=70, size_hint=(.2, 1)), NumberView()]
+                             font_name=self.font_name, width=70, size_hint=(.2, 1)), NumberView()]
 
         dec_system = [Button(text='DEC', on_press=self.change_system, background_color=self.rest,
-                             font_name='Roboto-Medium.ttf', width=70, size_hint=(.2, 1)), NumberView()]
+                             font_name=self.font_name, width=70, size_hint=(.2, 1)), NumberView()]
 
         oct_system = [Button(text='OCT', on_press=self.change_system, background_color=self.rest,
-                             font_name='Roboto-Medium.ttf', width=70, size_hint=(.2, 1)), NumberView()]
+                             font_name=self.font_name, width=70, size_hint=(.2, 1)), NumberView()]
 
         bin_system = [Button(text='BIN', on_press=self.change_system, background_color=self.rest,
-                             font_name='Roboto-Medium.ttf', width=70, size_hint=(.2, 1)), NumberView()]
+                             font_name=self.font_name, width=70, size_hint=(.2, 1)), NumberView()]
 
         self.all_systems = hex_system, dec_system, oct_system, bin_system
 
@@ -72,22 +58,22 @@ class Calculator(GridLayout):
         for raw in self.layout:
             box_raw = BoxLayout(orientation='horizontal', spacing=1)
             for symbol in raw:
-                button = Button(text=symbol, on_press=self.callback, font_name='Roboto-Medium.ttf')
+                button = Button(text=symbol, on_press=self.callback, font_name=self.font_name)
                 box_raw.add_widget(button)
             self.add_widget(box_raw)
 
         self.show_useful_sings()
         self.set_all_systems()
 
-    def change_system(self, instance):  # Changes system
+    def change_system(self, instance):  # Changes __system
         if instance.text == 'HEX':
-            self.equation.set_system(Hexadecimal)
+            self.equation.system = Hexadecimal
         elif instance.text == 'DEC':
-            self.equation.set_system(Decimal)
+            self.equation.system = Decimal
         elif instance.text == 'OCT':
-            self.equation.set_system(Octal)
+            self.equation.system = Octal
         elif instance.text == 'BIN':
-            self.equation.set_system(Binary)
+            self.equation.system = Binary
 
         self.set_all_systems()
         self.show_useful_sings()

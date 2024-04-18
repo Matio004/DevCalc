@@ -1,13 +1,13 @@
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, ScreenManager, SlideTransition
 
-from devcalculator import Calculator
-from colorchooser import ColorChooser
+from src.devcalculator.devcalculator import Calculator
+from src.colorchooser.colorchooser import ColorChooser
 
 
 class DevCalculator(App):
     # Root Settings
-    icon = 'icon.png'
+    icon = './assets/icon.png'
     title = None  # 'Kalkulator Programisty'
 
     def build(self):
