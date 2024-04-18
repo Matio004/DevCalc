@@ -39,8 +39,8 @@ class Calculator(GridLayout):
     all_systems: tuple
 
     # Colors
-    useful = '#00072B'
-    unuseful = '#151D45'
+    useful = '#151D45'  # '#00072B'
+    unuseful = '#00072B'  # '#151D45'
     rest = '#267480'
     active = '#008035'
     label_color = '#0E172E'
