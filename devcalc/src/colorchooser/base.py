@@ -19,6 +19,12 @@ class HEXNumber(Label):
         if self.collide_point(touch.pos[0], touch.pos[1]):
             Clipboard.copy('#' + hex_color_fill(self.text))
 
+    """def change_color(self, color):
+        self.canvas.before.clear()
+        with self.canvas.before:
+            Color(int(color[0]) / 255, int(color[1]) / 255, int(color[2]) / 255, 1)
+            Rectangle(pos=self.pos, size=self.size)"""
+
 
 class RGBNumber(Label):
     font_name = './assets/Roboto-Medium.ttf'
@@ -34,8 +40,8 @@ class RGBNumber(Label):
             Rectangle(pos=self.pos, size=self.size)
 
     def on_touch_down(self, touch):
-        if self.collide_point(touch.pos[0], touch.pos[1]) and self.parent.parent.parent.equation.__system == RGB:
-            self.parent.parent.parent.equation.__current_rgb_color = self.label_id
+        if self.collide_point(touch.pos[0], touch.pos[1]) and self.parent.parent.parent.equation.system == RGB:
+            self.parent.parent.parent.equation.current_rgb_color = self.label_id
             self.parent.parent.parent.show_useful_sings()
 
     def change_color(self, color):
