@@ -25,7 +25,7 @@ class ColorEquation:
 
         # Deletion
         if other == 'AC':
-            self.__del__()
+            self.__clear()
         elif other == 'DEL':
             self.__hex_equation = self.__hex_equation[:-1]
             self.__rgb_equation[self.__current_rgb_color] = self.__rgb_equation[self.__current_rgb_color][:-1]
@@ -33,7 +33,7 @@ class ColorEquation:
         self.update()
         return self
 
-    def __del__(self):  # todo
+    def __clear(self):
         self.__hex_equation = ''
 
         self.__rgb_equation = ['0', '0', '0']
@@ -44,7 +44,7 @@ class ColorEquation:
 
     @system.setter
     def system(self, value):
-        self.__del__()
+        self.__clear()
         self.__system = value
 
     @property
