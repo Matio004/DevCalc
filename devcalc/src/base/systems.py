@@ -1,3 +1,6 @@
+import numpy
+
+
 class System:
     name: str
     symbols: list
@@ -35,7 +38,7 @@ class Binary(System):
     name = 'BIN'
     symbols = ['0', '1']
     base = 2
-    function = bin
+    function = lambda x: numpy.binary_repr(x, 64)
     split = 4
 
 

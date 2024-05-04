@@ -1,5 +1,5 @@
-from ..base.systems import Hexadecimal, System, Decimal, Octal, Binary
-from ..base.functions import r_encrypt, fill_binary
+from ...base.systems import Hexadecimal, System, Decimal, Octal, Binary
+from ...base.functions import r_encrypt, fill_binary
 
 
 class Equation:
@@ -11,7 +11,7 @@ class Equation:
     __string = ''  # Current number
 
     # +
-    def __add__(self, other: str):
+    def __add__(self, other: str):  # todo get rid of strings, use own objects, BaseEquation, Number
         """Add sight to equation"""
         if len(''.join(self.get_bin().strip().lstrip('-0').split())) < 64:
             if other in self.__system.symbols:  # if number
@@ -24,13 +24,13 @@ class Equation:
                 self.update()
         if other in System.equations[1]:  # if AC DEL
             if other == 'AC':
-                self.__del__()
+                self.__clear()
             elif other == 'DEL':
                 self.__string = self.__string[:-1]
         self.int()
         return self
 
-    def int(self):
+    def int(self):  # todo
         """String to __int_string"""
         try:
             self.__int_string = str(int(self.__string, self.__system.base))
@@ -38,7 +38,7 @@ class Equation:
             self.__int_string = ''
         return self.__int_string
 
-    def get_hex(self):
+    def get_hex(self):  # todo
         """Get hex number"""
         try:
             return r_encrypt(str(hex(int(self.__int_string)))[2:].upper(), Hexadecimal.split)\
@@ -51,7 +51,7 @@ class Equation:
         """Get dec number"""
         return r_encrypt(self.__int_string, Decimal.split)
 
-    def get_oct(self):
+    def get_oct(self):  # todo
         """Get oct number"""
         try:
             return r_encrypt(str(oct(int(self.__int_string)))[2:], Octal.split)\
@@ -59,7 +59,7 @@ class Equation:
         except ValueError:
             return '0'
 
-    def get_bin(self):
+    def get_bin(self):  # todo
         """Get bin number"""
         try:
             return fill_binary(r_encrypt(str(bin((int(self.__int_string))))[2:], Binary.split), Binary.split)\
@@ -83,7 +83,7 @@ class Equation:
         self.__system = value
         self.__raw_equation = ''
 
-    def __del__(self):
+    def __clear(self):  # todo
         self.__raw_equation = ''
         self.__int_string = ''
         self.__string = ''
