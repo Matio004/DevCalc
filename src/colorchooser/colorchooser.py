@@ -87,7 +87,7 @@ class ColorChooser(GridLayout):
 
         self.set_all_systems()
 
-    def modify_color(self):  # todo
+    def modify_color(self):  # todo fill background behind hex
         if self.equation.system == Hexadecimal:
             self.all_systems[0][2].change_color(hex2rgb(hex_color_fill(self.equation.get_hex())))
             # self.all_systems[0][1].change_color(hex2rgb(hex_color_fill(self.equation.get_hex())))
@@ -95,13 +95,12 @@ class ColorChooser(GridLayout):
             self.all_systems[0][2].change_color(self.equation.get_int_rgb()[:])
             # self.all_systems[0][1].change_color(self.equation.get_int_rgb()[:])
 
-    def set_all_systems(self):
+    def set_all_systems(self):  # todo add R G B prefixes
         color = 0
-        temp = 'R', 'G', 'B',  # todo
 
         self.all_systems[0][1].text = self.equation.get_hex()  # Hex label
         for label in self.all_systems[1][1:]:
-            label.text = temp[color] + ': ' + str(self.equation.get_rgb()[color])
+            label.text = str(self.equation.get_rgb()[color])
             color += 1
 
     def show_useful_sings(self):

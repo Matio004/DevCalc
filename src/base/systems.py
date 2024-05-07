@@ -38,7 +38,7 @@ class Binary(System):
     name = 'BIN'
     symbols = ['0', '1']
     base = 2
-    function = lambda x: numpy.binary_repr(x, 64)
+    function = bin  # lambda x: numpy.binary_repr(x, 64)
     split = 4
 
 
