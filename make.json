@@ -26,8 +26,16 @@
    "value": "DevCalc"
   },
   {
+   "optionDest": "contents_directory",
+   "value": "."
+  },
+  {
    "optionDest": "clean_build",
    "value": false
+  },
+  {
+   "optionDest": "loglevel",
+   "value": "DEBUG"
   },
   {
    "optionDest": "strip",
@@ -63,15 +71,7 @@
   },
   {
    "optionDest": "datas",
-   "value": "D:/JetBrainsProjects/PycharmProjects/DevCalc/src/base;base/"
-  },
-  {
-   "optionDest": "datas",
-   "value": "D:/JetBrainsProjects/PycharmProjects/DevCalc/src/colorchooser;colorchooser/"
-  },
-  {
-   "optionDest": "datas",
-   "value": "D:/JetBrainsProjects/PycharmProjects/DevCalc/src/devcalculator;devcalculator/"
+   "value": "D:/JetBrainsProjects/PycharmProjects/DevCalc/src;src/"
   }
  ],
  "nonPyinstallerOptions": {
