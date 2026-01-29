@@ -1,24 +1,26 @@
 from ...base.systems import Hexadecimal, System, Decimal, Octal, Binary
 from ...base.functions import r_encrypt, fill_binary
+from .number import Number
 
 
 class Equation:
     __system = Hexadecimal
 
     # def __init__(self):
-    __raw_equation = ''  # Equation
-    __int_string = ''  # Int decimal
-    __string = ''  # Current number
+    # __raw_equation = ''  # Equation
+    # __int_string = ''  # Int decimal
+    # __string = ''  # Current number
+
+    __number = Number()
 
     # +
     def __add__(self, other: str):  # todo get rid of strings, use own objects, BaseEquation, Number
         """Add sight to equation"""
-        if len(''.join(self.get_bin().strip().lstrip('-0').split())) < 64:
+        if len(self.__number) < 64:
             if other in self.__system.symbols:  # if number
-                self.__string += other
+                self.__number.append(other)
             elif other in System.equations[0]:  # if + - * /
-                self.__raw_equation += self.__int_string + other
-                self.__string = ''
+                pass
             elif other == '=':
                 self.__raw_equation += self.__int_string
                 self.update()
